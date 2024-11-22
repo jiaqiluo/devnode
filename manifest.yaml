@@ -1,0 +1,34 @@
+name: registry
+description: |
+  A DigitalOcean VM configured as a container registry and equipped with essential development tools.
+variables:
+  digitalocean_token:
+    sensitive: true
+    type: string
+    description: "A Digitalocean API token with write permission. https://docs.digitalocean.com/reference/api/create-personal-access-token/"
+  digitalocean_domain:
+    sensitive: true
+    type: string
+    description: "The domain to use for the registry host."
+  digitalocean_size:
+    type: string
+    description: "The size of the droplet (default: s-2vcpu-4gb-intel)"
+    default: "s-2vcpu-4gb-intel"
+  registry_host:
+    type: string
+    readOnly: true
+    description: "host the configured registry can be accessed at"
+  corral_node_pools:
+    type: string
+    readOnly: true
+    description: "information about all nodes"
+commands:
+  # Run the TF module
+  - module: main
+  # Run the shell script
+  - command: /opt/corral/install.sh
+    node_pools:
+      - registry
+  - command: git clone https://github.com/jiaqiluo/rancher.git
+    node_pools:
+      - registry
