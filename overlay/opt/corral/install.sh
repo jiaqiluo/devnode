@@ -31,6 +31,7 @@ retry_command() {
 # Install the user's public key in case they need to debug an issue
 echo "$CORRAL_corral_user_public_key" >> /$(whoami)/.ssh/authorized_keys
 
+retry_command sudo fuser /var/lib/dpkg/lock-frontend
 curl https://releases.rancher.com/install-docker/27.2.sh | sudo sh
 sudo groupadd docker
 sudo usermod -aG docker $USER
