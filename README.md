@@ -58,18 +58,23 @@ corral vars devnode
 
 ### Step 4: Build and push Rancher images
 
+SSH into the VM, cd into the rancher directory, change the branch if necessary. 
+
 Run the following commands inside the rancher directory:
 
 ```shell
-export TAG=v2.10.0-rc3
-export REPO=<registry_host>/rancher
+
+export TAG=v2.12.0
+export REPO=your.domain.com/rancher
 
 time make quick
-
+export TAG=${TAG}-head
 docker tag $REPO/rancher:$TAG localhost:5000/rancher/rancher:$TAG
 docker tag $REPO/rancher-agent:$TAG localhost:5000/rancher/rancher-agent:$TAG
 docker push localhost:5000/rancher/rancher:$TAG
 docker push localhost:5000/rancher/rancher-agent:$TAG
+docker images 
+
 ```
 
 Run the following command to pull images on another VM:
